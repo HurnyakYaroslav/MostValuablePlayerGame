@@ -1,4 +1,4 @@
-package org.games.files.content;
+package org.games.files_content;
 
 import com.opencsv.bean.CsvBindByPosition;
 import lombok.Data;
