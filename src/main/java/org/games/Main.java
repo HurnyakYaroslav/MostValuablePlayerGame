@@ -2,16 +2,21 @@ package org.games;
 
 import org.games.utils.CSVUtil;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 public class Main {
+
     public static void main(String[] args) {
-        System.out.println("Hello world!");
-        System.out.println(CSVUtil.listRootFilesUsingJavaIO());
+
         var data = CSVUtil.listRootFilesUsingJavaIO().stream()
                 .map(file -> CSVUtil.readCSVContent("src/main/resources/games_data/" + file))
-                .collect(Collectors.toSet());
-        System.out.println(data);
+                .toList();
 
+        Map<String, Long> resultMap = new HashMap<>();
+
+        data.forEach(singleGameMap -> singleGameMap.forEach((key, value) -> resultMap.merge(key, value, Long::sum)));
+        System.out.println(resultMap);
     }
 }
