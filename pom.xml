@@ -12,27 +12,27 @@
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+        <lombok.version>1.18.30</lombok.version>
+        <slf4j.version>1.7.30</slf4j.version>
+        <opencsv.version>5.9</opencsv.version>
     </properties>
 
     <dependencies>
-        <!-- https://mvnrepository.com/artifact/org.projectlombok/lombok -->
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <version>1.18.30</version>
-            <scope>provided</scope>
+            <version>${lombok.version}</version>
         </dependency>
-        <!-- https://mvnrepository.com/artifact/org.slf4j/slf4j-simple -->
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-simple</artifactId>
-            <version>1.7.30</version>
+            <version>${slf4j.version}</version>
         </dependency>
-        <!-- https://mvnrepository.com/artifact/com.opencsv/opencsv -->
         <dependency>
             <groupId>com.opencsv</groupId>
             <artifactId>opencsv</artifactId>
-            <version>5.9</version>
+            <version>${opencsv.version}</version>
         </dependency>
     </dependencies>
 

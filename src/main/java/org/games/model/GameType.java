@@ -10,7 +10,8 @@ import org.games.files_content.HandballPlayerData;
 @Getter
 public enum GameType {
 
-    HANDBALL(HandballPlayerData.class), BASKETBALL(BasketballPlayerData.class);
+    HANDBALL(HandballPlayerData.class),
+    BASKETBALL(BasketballPlayerData.class);
 
     private final Class<? extends CommonPlayerData> dataClass;
 }

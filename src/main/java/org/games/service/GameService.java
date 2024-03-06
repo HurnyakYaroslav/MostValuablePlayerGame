@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.tuple.Pair;
 import org.games.files_content.CommonPlayerData;
 import org.games.utils.CSVUtil;
+import org.games.utils.MapsUtil;
 
 import java.util.HashMap;
 import java.util.List;
@@ -18,14 +19,11 @@ public class GameService {
     private static final Integer WINNER_BONUS = 10;
 
     public String getMostValuablePlayerFromCSV() {
-
         var playerData = getGamesPlayerData();
         var playerScoreData = playerData.stream().map(this::calculateScoreMap).toList();
         var resultMap = mergePlayerScoreData(playerScoreData);
-
-        log.info("Result map of players: {}", resultMap);
+        log.debug("Result map of players: {}", resultMap);
         var mostValuablePlayer = getMostValuablePlayer(resultMap);
-        log.info("Most Valuable Player: '{}' with score: '{}'", mostValuablePlayer.getKey().getNickName(), mostValuablePlayer.getValue());
         return mostValuablePlayer.getKey().getNickName();
     }
 
@@ -68,20 +66,11 @@ public class GameService {
     }
 
     private String getWinnerTeamByPlayerList(List<CommonPlayerData> list) {
-        var teamMap = list.stream().reduce(new HashMap<>(), this::mergeMapAccumulator, this::putAllAndReturn);
+        var teamMap = list.stream().reduce(new HashMap<>(), MapsUtil::mergeMapAccumulator, MapsUtil::putAllAndReturn);
         return teamMap.entrySet().stream()
                 .sorted(Map.Entry.comparingByValue())
-                .map(Map.Entry::getKey) //todo not sort, case if ==
+                .map(Map.Entry::getKey)
                 .findFirst().orElse("");
     }
 
-    private Map<String, Long> putAllAndReturn(Map<String, Long> m1, Map<String, Long> m2) {
-        m1.putAll(m2);
-        return m1;
-    }
-
-    private Map<String, Long> mergeMapAccumulator(Map<String, Long> hashMap, CommonPlayerData e) {
-        hashMap.merge(e.getTeamName(), e.countPoints(), Long::sum);
-        return hashMap;
-    }
 }
