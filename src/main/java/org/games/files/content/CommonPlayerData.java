@@ -16,7 +16,7 @@ public abstract class CommonPlayerData {
     private String teamName;
 
     public Long countPoints() {
-        return 0L;
+        throw new RuntimeException("Requested game is not supported!");
     }
 
 }
