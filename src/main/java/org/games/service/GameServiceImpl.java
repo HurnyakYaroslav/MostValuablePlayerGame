@@ -1,10 +1,12 @@
 package org.games.service;
 
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.configuration.PropertiesConfiguration;
 import org.apache.commons.lang3.tuple.Pair;
 import org.games.filescontent.CommonPlayerData;
 import org.games.utils.CSVUtil;
 import org.games.utils.MapsUtil;
+import org.games.utils.PropertyLoader;
 
 import java.util.HashMap;
 import java.util.List;
@@ -15,8 +17,8 @@ import java.util.stream.Collectors;
 @Slf4j
 public class GameServiceImpl implements GameService{
 
+    private static final PropertiesConfiguration config = PropertyLoader.getPropertyConfiguration();
     private static final String SOURCES_PATH = "src/main/resources/gamesdata/";
-    private static final Integer WINNER_BONUS = 10;
 
     public String getMostValuablePlayerFromCSV() {
         var playerData = getGamesPlayerData();
@@ -60,7 +62,7 @@ public class GameServiceImpl implements GameService{
 
     private Pair<CommonPlayerData, Long> calculatePlayerPoints(CommonPlayerData player, String winnerTeam) {
         var countPoints = Objects.equals(player.getTeamName(), winnerTeam)
-                ? player.countPoints() + WINNER_BONUS
+                ? player.countPoints() + config.getInt("common.winnerBonus")
                 : player.countPoints();
         return Pair.of(player, countPoints);
     }

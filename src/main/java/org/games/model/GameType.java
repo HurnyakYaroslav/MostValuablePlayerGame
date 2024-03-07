@@ -13,5 +13,7 @@ public enum GameType {
     HANDBALL(HandballPlayerData.class),
     BASKETBALL(BasketballPlayerData.class);
 
+    //add other games here if needed
+
     private final Class<? extends CommonPlayerData> dataClass;
 }
