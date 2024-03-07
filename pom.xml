@@ -16,6 +16,7 @@
         <lombok.version>1.18.30</lombok.version>
         <slf4j.version>1.7.30</slf4j.version>
         <opencsv.version>5.9</opencsv.version>
+        <common-configuration.version>1.6</common-configuration.version>
     </properties>
 
     <dependencies>
@@ -33,6 +34,11 @@
             <groupId>com.opencsv</groupId>
             <artifactId>opencsv</artifactId>
             <version>${opencsv.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>commons-configuration</groupId>
+            <artifactId>commons-configuration</artifactId>
+            <version>${common-configuration.version}</version>
         </dependency>
     </dependencies>
 

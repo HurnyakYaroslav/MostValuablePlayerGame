@@ -16,7 +16,9 @@ public class BasketballPlayerData extends CommonPlayerData {
     private Long assists;
 
     public Long countPoints() {
-        return 2 * getScoredPoints() + 5 * getRebounds() + 0 * getAssists();
+        return config.getInt("games.coefficients.basketball.scoredPoints") * getScoredPoints()
+                + config.getInt("games.coefficients.basketball.rebounds") * getRebounds()
+                + config.getInt("games.coefficients.basketball.assists") * getAssists();
     }
 
 }

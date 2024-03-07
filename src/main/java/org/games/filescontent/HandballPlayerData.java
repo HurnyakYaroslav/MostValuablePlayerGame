@@ -14,6 +14,7 @@ public class HandballPlayerData extends CommonPlayerData {
     private Long goalsReceived;
 
     public Long countPoints() {
-        return 2 * getGoalsMade() - 1 * getGoalsReceived();
+        return config.getInt("games.coefficients.handball.goalsMade") * getGoalsMade()
+                - config.getInt("games.coefficients.handball.goalsReceived") * getGoalsReceived();
     }
 }
