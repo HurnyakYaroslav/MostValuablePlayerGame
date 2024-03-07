@@ -2,6 +2,7 @@ package org.games.utils;
 
 import com.opencsv.bean.CsvToBean;
 import com.opencsv.bean.CsvToBeanBuilder;
+import org.games.exceptions.RequestingGameNotSupportedException;
 import org.games.exceptions.SourcesDirectoryNotFoundException;
 import org.games.exceptions.SourcesFileParsingException;
 import org.games.model.GameType;
@@ -28,10 +29,12 @@ public class CSVUtil {
         CsvToBean<CommonPlayerData> csvReader;
         try {
             var reader = new BufferedReader(new FileReader(file.getAbsoluteFile()));
-            var game = GameType.valueOf(reader.readLine());
+            var game = GameType.valueOf(reader.readLine()); //first line must be game type (f.e. BASKETBALL)
             csvReader = buildCSVReader(reader, game);
         } catch (IOException e) {
             throw new SourcesFileParsingException(String.format(FILE_PARSING_EXCEPTION_MESSAGE, file.getAbsoluteFile()));
+        } catch (IllegalArgumentException e){
+            throw new RequestingGameNotSupportedException();
         }
         return csvReader.parse();
     }
