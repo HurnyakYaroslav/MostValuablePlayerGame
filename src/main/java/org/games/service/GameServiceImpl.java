@@ -83,8 +83,8 @@ public class GameServiceImpl implements GameService{
      */
     private Pair<CommonPlayerData, Long> calculatePlayerPoints(CommonPlayerData player, String winnerTeam) {
         var countPoints = Objects.equals(player.getTeamName(), winnerTeam)
-                ? player.countPoints() + config.getInt("common.winnerBonus")
-                : player.countPoints();
+                ? player.countPlayerPoints() + config.getInt("common.winnerBonus")
+                : player.countPlayerPoints();
         return Pair.of(player, countPoints);
     }
 

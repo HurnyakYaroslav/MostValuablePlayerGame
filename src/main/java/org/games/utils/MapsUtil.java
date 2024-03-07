@@ -12,7 +12,7 @@ public class MapsUtil {
     }
 
     public static Map<String, Long> mergeMapAccumulator(Map<String, Long> map, CommonPlayerData player) {
-        map.merge(player.getTeamName(), player.countPoints(), Long::sum);
+        map.merge(player.getTeamName(), player.countTeamPoints(), Long::sum);
         return map;
     }
 

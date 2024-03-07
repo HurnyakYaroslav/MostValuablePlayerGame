@@ -20,8 +20,8 @@ public abstract class CommonPlayerData {
     @CsvBindByPosition(position = 3)
     private String teamName;
 
-    public Long countPoints() {
-        throw new RequestingGameNotSupportedException();
-    }
+    public abstract Long countPlayerPoints();
+
+    public abstract Long countTeamPoints();
 
 }

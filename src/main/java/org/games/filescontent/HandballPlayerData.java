@@ -13,8 +13,13 @@ public class HandballPlayerData extends CommonPlayerData {
     @CsvBindByPosition(position = 5)
     private Long goalsReceived;
 
-    public Long countPoints() {
+    public Long countPlayerPoints() {
         return config.getInt("games.coefficients.handball.goalsMade") * getGoalsMade()
                 - config.getInt("games.coefficients.handball.goalsReceived") * getGoalsReceived();
+    }
+
+    @Override
+    public Long countTeamPoints() {
+        return getGoalsMade();
     }
 }

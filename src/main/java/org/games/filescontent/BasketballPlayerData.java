@@ -15,10 +15,15 @@ public class BasketballPlayerData extends CommonPlayerData {
     @CsvBindByPosition(position = 6)
     private Long assists;
 
-    public Long countPoints() {
+    public Long countPlayerPoints() {
         return config.getInt("games.coefficients.basketball.scoredPoints") * getScoredPoints()
                 + config.getInt("games.coefficients.basketball.rebounds") * getRebounds()
                 + config.getInt("games.coefficients.basketball.assists") * getAssists();
+    }
+
+    @Override
+    public Long countTeamPoints() {
+        return countPlayerPoints();
     }
 
 }
