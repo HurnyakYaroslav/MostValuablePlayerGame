@@ -2,8 +2,10 @@ package org.games.utils;
 
 import com.opencsv.bean.CsvToBean;
 import com.opencsv.bean.CsvToBeanBuilder;
+import org.games.exceptions.SourcesDirectoryNotFoundException;
+import org.games.exceptions.SourcesFileParsingException;
 import org.games.model.GameType;
-import org.games.files_content.CommonPlayerData;
+import org.games.filescontent.CommonPlayerData;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -18,6 +20,8 @@ import java.util.stream.Stream;
 public class CSVUtil {
 
     private static final Character CSV_SEPARATOR = ';';
+    private static final String NO_SOURCES_EXCEPTION_MESSAGE = "Exception when trying to get list of sources files: {%s}";
+    private static final String FILE_PARSING_EXCEPTION_MESSAGE = "Exception during parsing sources file: {%s}";
 
     public static List<CommonPlayerData> readCSVGameDataFile(String filename) {
         var file = new File(filename);
@@ -27,7 +31,7 @@ public class CSVUtil {
             var game = GameType.valueOf(reader.readLine());
             csvReader = buildCSVReader(reader, game);
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new SourcesFileParsingException(String.format(FILE_PARSING_EXCEPTION_MESSAGE, file.getAbsoluteFile()));
         }
         return csvReader.parse();
     }
@@ -42,7 +46,9 @@ public class CSVUtil {
     }
 
     public static Set<String> getFileListByPath(String directoryPath) {
-        var files = Optional.ofNullable(new File(directoryPath).listFiles()).orElseThrow();
+        var files = Optional.ofNullable(new File(directoryPath).listFiles())
+                .orElseThrow(() -> new SourcesDirectoryNotFoundException(
+                        String.format(NO_SOURCES_EXCEPTION_MESSAGE, directoryPath)));
         return Stream.of(files)
                 .filter(file -> !file.isDirectory())
                 .map(File::getName)

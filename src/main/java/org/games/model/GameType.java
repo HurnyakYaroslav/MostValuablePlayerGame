@@ -2,9 +2,9 @@ package org.games.model;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import org.games.files_content.BasketballPlayerData;
-import org.games.files_content.CommonPlayerData;
-import org.games.files_content.HandballPlayerData;
+import org.games.filescontent.BasketballPlayerData;
+import org.games.filescontent.CommonPlayerData;
+import org.games.filescontent.HandballPlayerData;
 
 @RequiredArgsConstructor
 @Getter
