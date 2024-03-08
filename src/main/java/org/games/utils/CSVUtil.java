@@ -49,7 +49,9 @@ public class CSVUtil {
     }
 
     public static Set<String> getFileListByPath(String directoryPath) {
-        var files = Optional.ofNullable(new File(directoryPath).listFiles())
+        var files = Optional.ofNullable(directoryPath)
+                .map(File::new)
+                .map(File::listFiles)
                 .orElseThrow(() -> new SourcesDirectoryNotFoundException(
                         String.format(NO_SOURCES_EXCEPTION_MESSAGE, directoryPath)));
         return Stream.of(files)

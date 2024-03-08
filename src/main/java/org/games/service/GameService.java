@@ -2,6 +2,6 @@ package org.games.service;
 
 public interface GameService {
 
-    String getMostValuablePlayerFromCSV();
+    String getMostValuablePlayerFromCSV(String sourcesDirectory);
 
 }

@@ -3,28 +3,25 @@ package org.games.service;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.configuration.PropertiesConfiguration;
 import org.apache.commons.lang3.tuple.Pair;
+import org.games.exceptions.DataNotFoundException;
 import org.games.filescontent.CommonPlayerData;
 import org.games.utils.CSVUtil;
 import org.games.utils.MapsUtil;
 import org.games.utils.PropertyLoader;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Slf4j
 public class GameServiceImpl implements GameService{
 
     private static final PropertiesConfiguration config = PropertyLoader.getPropertyConfiguration();
-    private static final String SOURCES_PATH = "src/main/resources/gamesdata/";
 
     /**
      * @return NickName of the Most Valuable Player
      */
-    public String getMostValuablePlayerFromCSV() {
-        var playerData = getGamesPlayerData();
+    public String getMostValuablePlayerFromCSV(String sourcesDirectory) {
+        var playerData = getGamesPlayerData(sourcesDirectory);
         var playerScoreData = playerData.stream().map(this::calculateScoreMap).toList();
         var resultMap = mergePlayerScoreData(playerScoreData);
         log.debug("Result map of players: {}", resultMap);
@@ -32,9 +29,13 @@ public class GameServiceImpl implements GameService{
         return mostValuablePlayer.getKey().getNickName();
     }
 
-    private List<List<CommonPlayerData>> getGamesPlayerData() {
-        return CSVUtil.getFileListByPath(SOURCES_PATH).stream()
-                .map(file -> CSVUtil.readCSVGameDataFile(SOURCES_PATH + file))
+    private List<List<CommonPlayerData>> getGamesPlayerData(String sourcesDirectory) {
+        var files = CSVUtil.getFileListByPath(sourcesDirectory);
+        if (files.isEmpty()) {
+            throw new DataNotFoundException();
+        }
+        return CSVUtil.getFileListByPath(sourcesDirectory).stream()
+                .map(file -> CSVUtil.readCSVGameDataFile(sourcesDirectory + file))
                 .toList();
     }
 
@@ -62,6 +63,7 @@ public class GameServiceImpl implements GameService{
      * @return Most Valuable Player with result score.
      */
     private Pair<CommonPlayerData, Long> getMostValuablePlayer(Map<CommonPlayerData, Long> reducedGameMap) {
+
         return reducedGameMap.entrySet().stream()
                 .max((e1, e2) -> Math.toIntExact(e1.getValue() - e2.getValue()))
                 .map(entry -> Pair.of(entry.getKey(), entry.getValue()))
