@@ -9,7 +9,8 @@ public class CommonPlayerDataUtil {
         return BasketballPlayerData.builder()
                 .rebounds(1)
                 .scoredPoints(9)
-                .assists(5).build();
+                .assists(5)
+                .build();
     }
 
     public static HandballPlayerData buildHandballPlayerData(){
