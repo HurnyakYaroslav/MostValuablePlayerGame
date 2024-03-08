@@ -26,7 +26,7 @@ public class GameServiceImpl implements GameService{
         var resultMap = mergePlayerScoreData(playerScoreData);
         log.debug("Result map of players: {}", resultMap);
         var mostValuablePlayer = getMostValuablePlayer(resultMap);
-        return mostValuablePlayer.getKey().getNickName();
+        return mostValuablePlayer.getKey();
     }
 
     private List<List<CommonPlayerData>> getGamesPlayerData(String sourcesDirectory) {
@@ -50,10 +50,10 @@ public class GameServiceImpl implements GameService{
      *                       Every map means data per one game.
      * @return Merged map that contains players data with players scores.
      */
-    private Map<CommonPlayerData, Long> mergePlayerScoreData(List<Map<CommonPlayerData, Long>> multiGamesData) {
-        Map<CommonPlayerData, Long> resultMap = new HashMap<>();
+    private Map<String, Long> mergePlayerScoreData(List<Map<CommonPlayerData, Long>> multiGamesData) {
+        Map<String, Long> resultMap = new HashMap<>();
         multiGamesData.forEach(singleGameMap ->
-                singleGameMap.forEach((key, value) -> resultMap.merge(key, value, Long::sum)));
+                singleGameMap.forEach((key, value) -> resultMap.merge(key.getNickName(), value, Long::sum)));
         return resultMap;
     }
 
@@ -62,7 +62,7 @@ public class GameServiceImpl implements GameService{
      * @param reducedGameMap Reduced map with calculated players scores in all games.
      * @return Most Valuable Player with result score.
      */
-    private Pair<CommonPlayerData, Long> getMostValuablePlayer(Map<CommonPlayerData, Long> reducedGameMap) {
+    private Pair<String, Long> getMostValuablePlayer(Map<String, Long> reducedGameMap) {
 
         return reducedGameMap.entrySet().stream()
                 .max((e1, e2) -> Math.toIntExact(e1.getValue() - e2.getValue()))
