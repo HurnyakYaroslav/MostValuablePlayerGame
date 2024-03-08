@@ -45,6 +45,13 @@
             </Attribute>
           </value>
         </entry>
+        <entry key="/src/test/resources/gamesdatacorrupted/basketball1.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value=";" />
+            </Attribute>
+          </value>
+        </entry>
         <entry key="/src/test/resources/gamesdatacorrupted/handball1.csv">
           <value>
             <Attribute>
